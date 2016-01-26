@@ -1,0 +1,8 @@
+{{#each(menu)}}
+<div title="{{name}}" style="padding:10px;">
+	{{#each(submu)}}
+	<a id="btn" href="javascript:void(0);" class="easyui-linkbutton" onclick="$('center').href='{{url}}')">{{name}}</a>
+	{{/each}
+</div>
+{{/each}}
+		

@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <title>{{title}}</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/admin/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/icon.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+</href>
+<body>
+    <div style="margin:20px 0;"></div>
+    <table id="{{grid.dataid}}" class="easyui-datagrid" title="{{grid.title}}" style="width:700px;height:500"
+            data-options="
+            rownumbers:true,
+            remoteFilter: true,
+            singleSelect:true,
+            toolbar:'#tb',
+          	pagination:true,
+            pageSize:50,
+            {{#each(grid.opt,"v","k")}}
+    			{{k}}:'{{v}}',
+    			{{/each}}">
+        <thead>
+            <tr>
+                {{#each(grid.fields)}}
+                <th data-options="{{#each(this,"v","k")}}{{#if(k!=='title')}}{{k}}:'{{v}}',{{/if}}{{/each}}">{{title}}</th>
+                {{/each}}
+            </tr>
+        </thead>
+    </table>
+    <div id="tb" style="padding:2px 5px;">
+        统计组: 
+        <select id="gkey"   onchange="onselected(this.value);" style="width:100px">
+        
+        	{{#each(groups)}}
+            <option value="{{gkey}}">{{name}}</option>
+			{{/each}}
+        </select>
+        
+    </div>
+<script type="text/javascript">
+	function onselected(gkey){
+		$('#{{grid.dataid}}').datagrid('reload',{
+				gkey:gkey
+		});
+	}
+</script>
+</body>
+</html>

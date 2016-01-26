@@ -1,0 +1,35 @@
+{
+	"databases":{
+		"sphinx":"base.sphinx.IDX_com_corp_dist",
+		"mysql":"base.mysql.biz72_product"
+	},
+	"corp_list":{
+		"name":"公司列表",
+		"handle":"search",
+		"search":{
+			"expression":{
+				"querymod":"SPH_MATCH_EXTENDED2",
+				"pageSize":1,
+				"page":1,
+				"intType":{
+	         		"status":"1"
+	            },
+	            "orderBy":"SPH_SORT_EXPR|FLOOR(log2(@weight))+mem_level*10+IDIV(pub_time,86400)"
+	        }
+	    },
+	    "data":{
+	    	"table":"com_corp",	
+	    	"fields":"",
+	    	"where":"id in(%s)"	    
+	    },
+		"prama":{
+			"tag_id":[101],
+			"kword":"",
+			"pageSize":1,
+			"page":1,
+			"ttl":300,
+			"fields":"id,com_name,province,city,com_kind,com_jyms,mem_level,con_ddr,con_qq,domain,com_mainpro,class_tags,com_gsjj,com_ppmc"
+		}
+	}
+
+}

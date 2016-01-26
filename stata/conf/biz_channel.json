@@ -1,0 +1,12 @@
+{
+	"corp": {
+		"name": "公司标签",
+		"source":"base.mysql.biz72_product",
+		"table":"pro_tag",
+		"fields":"id,name,tag_id,letters,total_num",
+		"lv2rows":6,
+		"lv3rows":12
+	}
+
+	
+}

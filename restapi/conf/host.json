@@ -1,0 +1,62 @@
+{
+	"mysql": {
+		"host01": {
+			"host": "192.168.10.127",
+			"port":3354,
+			"user": "web_app",
+			"passwd": "web_app"
+		},
+		"host02": {
+			"host": "192.168.10.127",
+			"port":3364,
+			"user": "web_app",
+			"passwd": "web_app"
+		},	
+		"host03": {
+			"host": "192.168.10.126",
+			"port":3360,
+			"user": "web_app",
+			"passwd": "web_app"
+		},		
+		"host04": {
+			"host": "192.168.10.111",
+			"port":3354,
+			"user": "web_app",
+			"passwd": "web_app"
+		},
+		"host05": {
+			"host": "192.168.10.111",
+			"port":3364,
+			"user": "web_app",
+			"passwd": "web_app"
+		}		
+	},	 
+	"redis": {
+		"host01":
+			[
+				{
+					"host":"192.168.10.126",
+					"port":6380
+				},
+				{
+					"host":"192.168.10.126",
+					"port":6381
+				}
+			]			
+	},
+	"sphinx":{
+		"host01":{
+			"host":"192.168.10.127",
+			"port":9500
+		},
+		"host02":{
+			"host":"192.168.10.127",
+			"port":9501
+		},
+		"host03":{
+			"host":"192.168.10.127",
+			"port":9502
+		}
+	}
+	
+}

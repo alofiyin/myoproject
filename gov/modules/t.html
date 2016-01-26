@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+ 
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>全国企业信用信息公示系统（江苏）</title>
+<link href="/province/style/style.css" rel="stylesheet" type="text/css" /> 
+<link href="/province/js/jquery-loadmask-0.4/jquery.loadmask.css"
+  type="text/css" rel="stylesheet" />
+<script type="text/javascript"
+  src="/province/js/jquery/jquery-1.7.2.min.js"></script>
+<script type="text/javascript"
+  src="/province/js/jquery-loadmask-0.4/jquery.loadmask.min.js"></script>
+<script type="text/javascript"
+  src="/province/js/myJsTools/replacePlaceHolderByData.js"></script>
+  <!-- 引入 jQuery 第三方弹出窗口插件类库 -->
+<script src="/province/js/lhgdialog-4.2.0/lhgdialog.js"></script>
+
+<link href="css/public.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="/province/js/common/cattleB.js"></script>
+<script type="text/javascript" src="/province/js/common/rDate.js"></script>
+<script type="text/javascript">
+var passIdentifyingCode = false;
+if (window != window.top) { // 防钓鱼代码
+	window.top.location.href = window.location.href;
+}
+var vc = ''; 
+var sj='';
+var nameH = '';
+var sname = '';
+function getPath(){
+    return "/province";
+  }
+</script>
+</head>
+<body style="font-size:12px; padding:0px; margin:0px; background:#FFFFFF;" id="divID">
+
+<div id="header"><img src="images/head_03.jpg" width="990"/></div><br/><br/><br/><br/>
+<form action="" id="formx_queryResult" name="formx_queryResult" method="post" >
+<input type="hidden" id="org" name="org" />
+<input type="hidden" id="id" name="id" />
+<input type="hidden" id="seq_id" name="seq_id" />
+<input type="hidden" id="reg_no" name="reg_no" />
+<input type="hidden" id="uni_scid" name="uni_scid" />
+<input type="hidden" name="sname" id="sname" />
+<input type="hidden" name="containContextPath" id="containContextPath" />
+<div style="padding-bottom: 0px; height: 600px;"  id="mask">
+<div id="search">
+<a href="javascript:returnLastPage();"> 
+<img src="images/back.gif" style="float:right;margin-top:1px;margin-right:5px;"/></a>
+
+  <ul>
+    <li>
+      <input type="text" name="name" id="name" style=" width:30%;color:#000000;height: 28px;line-height: 28px;overflow: hidden;" class="inp_s_index" maxlength="50" onfocus="rDate(2);"/>
+      <input id = "verifyCode" style=" width:12%;color:#BDBDBD;height: 28px;line-height: 28px;overflow: hidden;" class="inp_s_index" name="verifyCode" type="text" class="tab_left" size="20"  maxlength="32"
+      value="请输入右侧验证码"   onFocus="if(value=='请输入右侧验证码'){value=''; document.getElementById('verifyCode').style.color='#000000';} rDate(3);"
+       onBlur="if(value==''){value='请输入右侧验证码';document.getElementById('verifyCode').style.color='#BDBDBD';}" />
+      <span style="padding-bottom:4px"><a id="updateVerifyCode" href = "javascript:updateVerifyCode();"><img class="inp_s_index1" border="0" src="/province/rand_img.jsp?type=8"  /></a></span>
+      <input type="button" name="button" id="button"  class="btn_s_index" onclick="PunishResult('1');"/>   
+    </li>   
+  </ul>
+</div>
+
+<div >   
+<div id="punishResult"style=" width: 990px; margin: 0 auto 10px; height:500px;" align="center">         
+<dl class="list">   
+<!--  {INFO} --> 
+<!--  <br/> -->
+<!--     <font color="red">{COUNT}&nbsp;&nbsp;&nbsp;&nbsp;</font> -->
+<!--      <div><div id="punishResult2"></div></div>  -->
+</dl>
+</div>
+</div>     
+</div>
+</form> 
+<div id="foot" align="center" style="padding-bottom: 10px">
+  <img src="/province/images/bottom_js.gif" width="990" />
+</div>
+<script type="text/javascript" src="/province/js/ecipplatform/home/queryResultList.js"></script> 
+</body>
+</html>

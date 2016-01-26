@@ -1,0 +1,75 @@
+{
+	"corp_targ": {
+		"name": "公司标签",
+		"source":"base.mysql.biz72_product",
+		"table":"pro_tag",
+		"fields":"id,name,tag_id,letters,total_num",
+		"lv2rows":6,
+		"lv3rows":12
+	},
+	"com_channel_corp":{
+		"name":"公司黄页-公司信息",
+		"search":{
+			"tag_id":{
+				"工业品":"101,102,104,105,106,109,113,114,118,119,122",
+				"原材料":"115,110,116,117,125,126,131",
+				"家居百货":"107,120,128,134",
+				"小商品":"108,121,124,130,129",
+				"服装服饰":"111,112",
+				"商务服务":"103,135,141",
+			},
+			"source":"base.sphinx.IDX_com_corp_dist",
+			"expression":{
+				"querymod":"SPH_MATCH_EXTENDED2",
+				"pageSize":1,
+				"page":1,
+				"intType":{
+	         		"status":"1"
+	            },
+	            "orderBy":"SPH_SORT_EXPR|FLOOR(log2(@weight))+mem_level*10+IDIV(pub_time,86400)"
+	        }
+	    },
+	    "data":{
+	    	"source":"base.mysql.biz72_company",
+	    	"table":"com_corp",	
+	    	"fields":"id,com_name,province,city,com_kind,com_jyms,mem_level,con_ddr,con_qq,domain,com_mainpro,class_tags,com_gsjj,com_ppmc",
+	    	"where":"id in(%s)"	    
+	    }
+	},
+	"com_channel_prod":{
+		"name":"公司黄页-产品信息",
+		"search":{
+			"tag_id":{
+				"工业品":"101,102,104,105,106,109,113,114,118,119,122",
+				"原材料":"115,110,116,117,125,126,131",
+				"家居百货":"107,120,128,134",
+				"小商品":"108,121,124,130,129",
+				"服装服饰":"111,112",
+				"商务服务":"103,135,141",
+			},
+			"source":"base.sphinx.IDX_pro_info_dist",
+			"expression":{
+				"querymod":"SPH_MATCH_EXTENDED2",
+				"pageSize":1,
+				"page":1,
+				"intType":{
+	         		"status":"1","isimg":"1"
+	            },
+	            "intRange":{
+	            	"mem_level":"0,100,0"
+	            },
+	            "floatRange":{
+	            	"price","20,10000000,0"
+	            },
+	            "orderBy":"SPH_SORT_EXTENDED|@id DESC",
+	            "groupBy":"r_tag_id,SPH_GROUPBY_ATTR,id desc"
+	        }
+	    },
+	    "data":{
+	    	"source":"base.mysql.biz72_product",
+	    	"table":"pro_info",	
+	    	"fields":"id,title,tag_id,img,price",
+	    	"where":"id in(%s)"	    
+	    }
+	}	
+}

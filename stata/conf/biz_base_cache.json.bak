@@ -1,0 +1,15 @@
+{
+	"position": {
+		"name":"地理位置",
+		"prama":{
+				"source":"base.mysql.biz72_home",
+				"table":"home_country_sort",
+				"where":"sortid>1000 and sortid<1000000000",
+				"fields:"sortid,name",
+				"key":"sortid",
+				"value":"name",
+				"desc":True				
+		}
+	},
+	
+}

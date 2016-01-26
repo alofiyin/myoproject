@@ -1,0 +1,178 @@
+#_*_coding:utf-8_*_
+import falcon
+from cls_base import cache_get,cache_set,get_cnf_val
+import gzip,json,time
+from pprint import pprint
+import sconf
+from hashlib import md5
+from utils import JSONEncoder
+import logging
+from myapp import app
+
+import cls_bizcom
+
+logger = logging.getLogger('main')
+#版本号
+__Version = "1.0"
+class ctl_bizcom_test:
+	def __init__(self):
+		pass
+	def on_post(self,req,resp,action):
+		result 		= [-101,"action %s not found."% action ]
+		kw 			= req.context['doc']
+		biznum 		= kw.get('biznum','')
+		#传入参数
+		prama 		= kw.get("prama",{})
+		
+		#业务配置
+		bizcnf 		= get_cnf_val(biznum,sconf.BIZ)
+		if not bizcnf:
+			sconf.err_handle.biznum_not_config
+			raise falcon.HTTPError(falcon.HTTP_701,
+                                   sconf.err_handle.biznum_not_config[1],
+									)
+		kw['bizcnf']= bizcnf
+		hexcod		= md5(json.dumps(prama).encode()).hexdigest()
+		cachkey		= "%s.$s" %(biznum,hexcod)
+		ttl			= bizcnf['prama']['ttl']
+		#执行action
+		if action == 'gettags':
+			'''取得标签列表-从缓存取'''				
+			tag_id 	= str(prama.get('tag_id',bizcnf['prama']['tag_id']))		
+			lv2rows = prama.get('lv2rows',bizcnf['prama']['lv2rows'])
+			lv3rows = prama.get('lv3rows',bizcnf['prama']['lv3rows'])
+			result 	= cache_get(cachkey)
+			if result:
+				result = 0,json.loads(result)			
+			else:
+				result = biz_com.gettags(kw)
+				if result[0] == 0 and result[1]:
+					cache_set(ckey,json.dumps(result[1]),ttl)	
+		
+		elif action == 'list':
+			'''根据标签取公司数据'''
+			result = cache_get(cachkey)
+			if result:
+				return 0,json.loads(result)
+			else:
+				result = biz_com.list(kw)
+				if result[0] == 0 and result[1]:
+					cache_set(cachkey,json.dumps(res[1]),ttl)	
+
+		#返回结果
+		resp.body = JSONEncoder().encode(result)
+	def on_get(self,req,resp,action):
+		result = [-108,"action %s not found."% action ]
+		kw = {'id':[18944399,18944300]}
+		if action in(cls_bizcom.myaction):
+			result = cls_bizcom.myaction[action](kw)
+			logger.info("t:%s bodylen:%s" %(req.date,len(str(result))))
+		resp.body = JSONEncoder().encode(result)
+
+
+class ctl_bizcom:
+	def __init__(self):
+		pass
+	def on_post(self,req,resp,dbname,table):
+		result 		= [-101,"action %s not found."% action ]
+		kw = req.context
+		if action in(cls_bizcom.myaction):
+			result = cls_bizcom.myaction[action](kw)
+			
+			logger.info("t:%s bodylen:%s" %(req.date,len(str(result))))
+		resp.body = JSONEncoder().encode(result)
+	def on_get(self,req,resp,action):
+		result = [-108,"action %s not found."% action ]
+		kw = {'id':[18944399,18944300]}
+		if action in(cls_bizcom.myaction):
+			result = cls_bizcom.myaction[action](kw)
+			logger.info("t:%s bodylen:%s" %(req.date,len(str(result))))
+		resp.body = JSONEncoder().encode(result)
+	def on_put(self,req,resp,action):
+		resp.body = "action:%s" % action
+	def on_delete(self,req,resp,action,id):
+		resp.body = "action:%s,id:%s" % (action, id)
+		#resp.body = json.dumps(req.context)
+		
+import dbrest as	dbhandle	
+class rest_mysql:
+	def __init__(self):
+		self.databases	= list(sconf.get_db_info().keys())
+		self.result		= {'Statues:0'}	
+	def on_get(self,req,resp,dbname,table):
+		kw 			= {}
+		kw['id']	= req.params.get("id",[])
+		kw['table']	= table
+		kw['dbname']= dbname
+		kw['where']	= "id in(%s)" % ",".join(kw['id'])
+		if dbname in self.databases:
+			result = dbhandle.query(kw)
+			if result[0] == -1:
+				raise falcon.HTTPBadRequest('invalid_sql_syntax',result[1]
+			)
+		else:
+			raise falcon.HTTPBadRequest('invalid_dbname'
+			)
+		logger.info("t:%s bodylen:%s" %(req.date,len(str(result))))
+		result={'result':result[1]}
+		resp.body = JSONEncoder().encode(result)
+
+					
+	def on_post(self,req,resp,dbname,table):
+		kw = req.context
+		kw['dbname']	= dbname
+		kw['table']		= table
+		if dbname in self.databases:
+			result = dbhandle.insert(kw)
+			if result[0] == -1:
+				raise falcon.HTTPBadRequest('invalid_sql_syntax',result[1]
+			)
+		else:
+			raise falcon.HTTPBadRequest('invalid_dbname'
+			)
+		logger.info("t:%s bodylen:%s" %(req.date,len(str(result))))
+		result={'result':result[1]}
+		resp.body = JSONEncoder().encode(result)
+
+	def on_put(self,req,resp,dbname,table):
+		kw = req.context
+		kw['dbname']	= dbname
+		kw['table']		= table
+		if dbname in self.databases:
+			result = dbhandle.update(kw)
+			if result[0] == -1:
+				raise falcon.HTTPBadRequest('invalid_sql_syntax',result[1]
+			)
+		else:
+			raise falcon.HTTPBadRequest('invalid_dbname'
+			)
+		logger.info("t:%s bodylen:%s" %(req.date,len(str(result))))
+		result={'result':result[1]}
+		resp.body = JSONEncoder().encode(result)
+		
+	def on_delete(self,req,resp,dbname,table):
+		kw = req.context
+		kw['dbname']	= dbname
+		kw['table']		= table
+		kw['id']		= req.get_param('id',0)
+		if dbname in self.databases:
+			result = dbhandle.delete(kw)
+			if result[0] == -1:
+				raise falcon.HTTPBadRequest('invalid_sql_syntax',result[1]
+			)
+		else:
+			raise falcon.HTTPBadRequest('invalid_dbname'
+			)
+		logger.info("t:%s bodylen:%s" %(req.date,len(str(result))))
+		result={'result':result[1]}
+		resp.body = JSONEncoder().encode(result)
+		#resp.body = json.dumps(req.context)
+		
+def getinfobyid(req,resp,dbname,table):
+	print(dbname,table)
+#--------
+#注册模块路由
+#--------
+app.add_route('/%s/bizcom/{action}',ctl_bizcom())
+app.add_route('/%s/db/{dbname}/{table}'% __Version,rest_mysql())
+app.add_route('/%s/db/{dbname}/{table}/{action}'% __Version,rest_mysql())

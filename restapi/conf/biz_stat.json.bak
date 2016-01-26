@@ -1,0 +1,65 @@
+{
+	"default": {
+		"name": "默认",
+		"pid": 1
+	},	 
+	"pst_corp": {
+		"name":"区域公司统计",
+		"pid":1,
+		"items_mrk": "pst",
+		"item_from": [
+			{
+				"source":"base.mysql.biz72_home",
+				"table":"home_country_sort",
+				"where":"sortid>1000 and sortid<1000000000",
+				"key":"sortid",
+				"name":"name",
+				"id":"id",
+				"key_prefix":"pst_corp."
+				
+			}
+		],
+		"history_mrk": "pst",
+		"history_from":
+		[
+			{
+				"source":"base.sphinx.IDX_com_corp_dist",
+				"expression":{
+					"querymod":"SPH_MATCH_EXTENDED2",
+					"pageSize":50,
+					"page":1,
+					"intType":{
+         				"status":"1", "isimg":"1"
+            		},
+            		"intRange":{
+            			"province":"101000,101150,0"
+            		},
+            		"groupBy":"province,SPH_GROUPBY_ATTR,@count desc"
+            	},
+            	"key": "@groupby",
+            	"value":"@count",
+            	"key_prefix":"pst_corp."			
+			},
+			{
+				"source":"base.sphinx.IDX_com_corp_dist",
+				"expression":{
+					"querymod":"SPH_MATCH_EXTENDED2",
+					"pageSize":50,
+					"page":1,
+					"intType":{
+         				"status":"1", "isimg":"1"
+            		},
+            		"intRange":{
+            			"city":"101000000,101150000,0"
+            		},
+            		"groupBy":"city,SPH_GROUPBY_ATTR,@count desc"
+            	},
+            	"key": "@groupby",
+            	"value": "@count",
+            	"key_prefix":"pst_corp."				
+			}
+		]
+	}
+
+	
+}

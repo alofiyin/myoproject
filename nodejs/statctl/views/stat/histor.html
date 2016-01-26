@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1">
+    <title>{{title}}</title>
+    <link rel="stylesheet" type="text/css" href="/css/admin/main.css" />
+    <link rel="stylesheet" type="text/css" href="/css/icon.css" />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.easyui.min.js"></script>
+</href>
+<body>
+    <div style="margin:20px 0;"></div>
+    <table id="{{grid.dataid}}" class="easyui-datagrid" title="{{grid.title}}" style="width:700px;height:500"
+            data-options="
+            rownumbers:true,
+            remoteFilter: true,
+            singleSelect:true,
+            toolbar:'#tb',
+          	pagination:true,
+            pageSize:20,
+            {{#each(grid.opt,"v","k")}}
+    			{{k}}:'{{v}}',
+    			{{/each}}">
+        <thead>
+            <tr>
+                {{#each(grid.fields)}}
+                <th data-options="{{#each(this,"v","k")}}{{#if(k!=='title')}}{{k}}:'{{v}}',{{/if}}{{/each}}">{{title}}</th>
+                {{/each}}
+            </tr>
+        </thead>
+    </table>
+    <div id="tb" style="padding:2px 5px;">
+        Date From: <input id="Sdate" class="easyui-datebox" data-options="formatter:myformatter,parser:myparser" style="width:110px">
+        To: <input id="Edate" class="easyui-datebox" data-options="formatter:myformatter,parser:myparser" style="width:110px">
+        统计组: 
+        <!--<select id="gkey"   onchange="onselected(this.value)" style="width:100px">-->
+        <select id="gkey"   style="width:100px">
+        	{{#each(groups)}}
+            <option value="{{gkey}}">{{name}}</option>
+			{{/each}}
+        </select>
+        <a  id="search" href="javascript:void(0)" onclick="onsearch()" class="easyui-linkbutton" iconCls="icon-search">Search</a>
+    </div>
+<script type="text/javascript">
+        function myformatter(date){
+            var y = date.getFullYear();
+            var m = date.getMonth()+1;
+            var d = date.getDate();
+            return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+        }
+        function myparser(s){
+            if (!s) return new Date();
+            var ss = (s.split('-'));
+            var y = parseInt(ss[0],10);
+            var m = parseInt(ss[1],10);
+            var d = parseInt(ss[2],10);
+            if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+                return new Date(y,m-1,d);
+            } else {
+                return new Date();
+            }
+        }
+	function onsearch(){
+		var sdate=$('#Sdate').datebox('getValue');
+		var edate=$('#Edate').datebox('getValue');
+		var gkey=$('#gkey').val();
+
+		$('#{{grid.dataid}}').datagrid('reload',{
+				gkey:gkey,
+				args:{
+					stop_time: edate,
+					start_time:sdate
+					}
+				}
+			);
+		
+	}
+</script>
+</body>
+</html>

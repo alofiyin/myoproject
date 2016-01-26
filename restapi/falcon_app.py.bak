@@ -1,0 +1,114 @@
+#!/usr/local/python3/bin/python3
+#_*_coding:utf-8_*_
+import falcon
+import json 
+import os, time, sys
+import logging
+import logging.config
+import mysqlwrap
+import rediswrap
+import route
+import setproctitle
+from wsgiref import simple_server
+
+sys.path.append("%s/%s" % (sys.path[0],'controllers'))
+sys.path.append("%s/%s" % (sys.path[0],'modules'))
+"""加载日志"""
+logging.config.fileConfig('./conf/logging.conf')
+logger = logging.getLogger('main')
+#加载配置
+import sconf
+
+try:
+    sconf.SYS = json.loads("".join(open('./conf/sys.json').read().split()))
+except:
+    print("Erro: the file sys.json  is not json format, please check!\n system exit..")
+    os._exit(0)
+try:
+    sconf.HOST = json.loads("".join(open('./conf/host.json').read().split()))
+    sconf.DATA_SOURC = json.loads("".join(open('./conf/databases.json').read().split()))
+    #print(sconf.HOST)
+    #print(sconf.DATA_SOURC)
+except:
+    pass
+#加载业务配置文件
+files = os.listdir("./conf")
+for f in files:
+    try:
+        if f[:4]=='biz_' and f[-5:]=='.json':
+            sconf.BIZ[f[4:-5]] = json.loads(open("./conf/%s"%f).read().replace('\n','').replace('\t',''))
+    except:
+        logger.error("config file %s not load.please check."%f)
+        
+class RequireJSON(object):
+
+    def process_request(self, req, resp):
+        if not req.client_accepts_json:
+            raise falcon.HTTPNotAcceptable(
+                'This API only supports responses encoded as JSON.',
+                href='http://docs.examples.com/api/json')
+
+        if req.method in ('POST', 'PUT'):
+            if 'application/json' not in req.content_type:
+                raise falcon.HTTPUnsupportedMediaType(
+                    'This API only supports requests encoded as JSON.',
+                    href='http://docs.examples.com/api/json')
+
+
+class JSONTranslator(object):
+
+    def process_request(self, req, resp):
+        # req.stream corresponds to the WSGI wsgi.input environ variable,
+        # and allows you to read bytes from the request body.
+        #
+        # See also: PEP 3333
+        if req.content_length in (None, 0):
+            # Nothing to do
+            return
+
+        body = req.stream.read()
+        if not body:
+            raise falcon.HTTPBadRequest('Empty request body',
+                                        'A valid JSON document is required.')
+
+        try:
+            req.context['doc'] = json.loads(body.decode('utf-8'))
+
+        except (ValueError, UnicodeDecodeError):
+            raise falcon.HTTPError(falcon.HTTP_753,
+                                   'Malformed JSON',
+                                   'Could not decode the request body. The '
+                                   'JSON was incorrect or not encoded as '
+                                   'UTF-8.')
+
+    def process_response(self, req, resp, resource):
+        if 'result' not in req.context:
+            return
+
+        resp.body = json.dumps(req.context['result'])       
+mysqlwrap.setup_db('default',sconf.SYS['mysql'])
+mysqlwrap.pool_monitor()
+#rediswrap.setup_redis('default',sconf.SYS['redis']['host'],sconf.SYS['redis']['port'])
+rediswrap.setup_redis('cache',sconf.SYS['redis']['host'],sconf.SYS['redis']['port'],decode_flag=False)
+sconf.SYS['root_dir'] = sys.path[0]
+import f_bizcom
+import ctl_test
+thing = f_bizcom.f_bizcom()
+test  = ctl_test.ctl_test
+#thing = ThingsResource()
+app = application= falcon.API(middleware=[
+#    AuthMiddleware(),
+    RequireJSON(),
+    JSONTranslator(),
+])
+app.add_route('/webapi/{action}', thing)
+app.add_route('/test/{action}', test)
+# 添加路由控制
+#api.add_route('/test', test)
+#r = route.route()
+#for p,f in r.items():
+#	print(p,f)
+#	api.add_route(p, f)
+httpd = simple_server.make_server('0.0.0.0', 6000, app)
+httpd.serve_forever()
+#gunicorn -w 8 -b 127.0.0.1:6000 app

@@ -1,0 +1,8 @@
+{'Version': 'HTTP/1.1', 'Content-Type': 'application/json', 'Method': 'POST', 'Accept': '*/*', 'Request': '/api/get_items', 'Content-Length': '19', 'User-Agent': 'curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.16.2.3 Basic ECC zlib/1.2.3 libidn/1.18 libssh2/1.4.2', 'Host': '192.168.10.126:1985'}
+2015-12-02 16:13:48,484 - main - INFO - "192.168.10.125" "/api/get_items" "0.007"
+{'Version': 'HTTP/1.1', 'Content-Type': 'application/json', 'Method': 'POST', 'Accept': '*/*', 'Request': '/api/get_items', 'Content-Length': '17', 'User-Agent': 'curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.16.2.3 Basic ECC zlib/1.2.3 libidn/1.18 libssh2/1.4.2', 'Host': '192.168.10.126:1985'}
+2015-12-02 16:14:15,147 - main - INFO - "192.168.10.125" "/api/get_items" "0.003"
+{'Version': 'HTTP/1.1', 'Content-Type': 'application/json', 'Method': 'POST', 'Accept': '*/*', 'Request': '/api/get', 'Content-Length': '50', 'User-Agent': 'curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.16.2.3 Basic ECC zlib/1.2.3 libidn/1.18 libssh2/1.4.2', 'Host': '192.168.10.126:1985'}
+2015-12-03 11:13:59,177 - main - INFO - "192.168.10.126" "/api/get" "0.003"
+{'Version': 'HTTP/1.1', 'Content-Type': 'application/json', 'Method': 'POST', 'Accept': '*/*', 'Request': '/api/get', 'Content-Length': '50', 'User-Agent': 'curl/7.19.7 (x86_64-redhat-linux-gnu) libcurl/7.19.7 NSS/3.16.2.3 Basic ECC zlib/1.2.3 libidn/1.18 libssh2/1.4.2', 'Host': '192.168.10.126:1985'}
+2015-12-03 11:49:19,320 - main - INFO - "192.168.10.126" "/api/get" "0.002"

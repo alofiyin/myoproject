@@ -1,0 +1,65 @@
+{
+	"tags_corp": {
+		"name":"公司标签统计",
+		"prama":
+		[
+			{
+				"source":"base.sphinx.IDX_com_corp_dist",
+				"expression":{
+					"querymod":"SPH_MATCH_EXTENDED2",
+					"pageSize":10,
+					"page":1,
+					"intType":{
+         				"c_com":"101101"
+            		},
+            		"groupBy":"com,SPH_GROUPBY_ATTR,@count desc"
+            	},
+            	"key": "@groupby",
+            	"value":"@count"	
+			},
+			{
+				"source":"base.sphinx.IDX_com_corp_dist",
+				"expression":{
+					"querymod":"SPH_MATCH_EXTENDED2",
+					"pageSize":20,
+					"page":1,
+            		"groupBy":"c_com,SPH_GROUPBY_ATTR,@count desc"
+            	},
+            	"key": "@groupby",
+            	"value":"@count"	
+			},
+			{
+				"source":"base.sphinx.IDX_com_corp_dist",
+				"expression":{
+					"querymod":"SPH_MATCH_EXTENDED2",
+					"pageSize":50,
+					"page":1,
+            		"groupBy":"com,SPH_GROUPBY_ATTR,@count desc"
+            	},
+            	"key": "@groupby",
+            	"value":"@count"	
+			}
+		]
+	},
+
+	"tags_prod": {
+		"name":"产品标签统计",
+		"prama":
+		[
+			{
+				"source":"base.sphinx.IDX_pro_info_dist",
+				"expression":{
+					"querymod":"SPH_MATCH_EXTENDED2",
+					"pageSize":10,
+					"page":1,
+					"intType":{
+         				"status":"1", "isimg":"1"
+            		},
+            		"groupBy":"tag_id,SPH_GROUPBY_ATTR,@count asc"
+            	},
+            	"key": "@groupby",
+            	"value":"@count"	
+			}
+		]
+	}	
+}

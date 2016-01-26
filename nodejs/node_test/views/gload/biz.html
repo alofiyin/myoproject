@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{title}}</title>
+<meta name="generator" content="广州致成文传播有限公司" /> 
+<meta name="keywords" content="商务联盟公司黄页，B2B综合电子商务平台,公司名录，企业名录，电子商务，内贸公司黄页，外贸公司黄页，批发公司黄页，采购公司黄页，工厂，加工合作，直销厂家，展厅，商城。" />
+<meta name="description" content="商务联盟, B2B公司黄页收录过千万的公司信息，每日有大量的新注册公司。商务联盟公司黄页为您提供详细的公司介绍、联系人资料、联系方式，公司原材料、机械设备、行业市场、家居用品、服装服饰、日化用品和小商品等产品橱窗等公司信息，加入商务联盟公司黄页，请立即加盟商务联盟成为其中一员！搜索查找公司信息尽在商务联盟公司黄页！" />
+<link rel="stylesheet" type="text/css" href="{{weburl.style}}/prod/default.css">
+{{! 定义公用head内容标识}}
+{{{block ("head")}}}
+</head>
+<body>
+	
+    <!-- 页眉S -->
+<div class="top_state" id="reloadGlobalNav">
+	<div class="top_state01">
+    	<input type="hidden" id="global_member_url" value="http://user.biz72.com/" />
+		<div class="top_state01_1" id="globalNavShow">
+            您好！欢迎来到商务联盟！
+            <a target="_blank" title="登录" href="http://passport.biz72.com/" class="login_sub hover">请登录 |</a><a href="http://passport.biz72.com/register/index.html" class="login_sub hover" target="_blank">免费注册</a>
+		</div>
+		<div class="top_state01_2">
+            <a target="_blank" title="我的商务中心" class="hover" href="http://user.biz72.com/">我的商务中心</a>|
+            <a  target="_blank"  title="免费发布" class="hover" href="http://user.biz72.com/prod/add">免费发布</a>|
+            <a target="_blank" title="帮助中心" class="hover" href="http://help.biz72.com/">帮助中心</a>|
+            <a style="cursor:pointer;" title="将商务联盟添加到收藏夹吗？" class="hover" onclick="AddFavorite('http://www.biz72.com/','商务联盟首页—商务，商业，商机，免费发布商务信息-biz72商务联盟');">加为收藏</a>
+		</div>
+	</div>
+</div>
+<!-- 页眉E -->
+
+<!-- 头部S -->
+<div id="head">
+	<div class="head_content">
+		<div class="floatL left_01">
+			<a href="http://www.biz72.com/" class="logo_a" title="商务联盟" target="_blank"></a>
+        </div>
+                <div class="sub_nav"> 
+            <a href="javascript:;" id="p" title="搜索产品信息" onclick="global_sel('provide');" >产品</a>
+            <a href="javascript:;" id="c" title="搜索公司信息" onclick="global_sel('company');" class="sub_nav_sel">公司</a>
+            <a href="javascript:;" id="n" title="搜索资讯信息" onclick="global_sel('news');" >资讯</a>
+            <a href="javascript:;" id="l" title="搜索公司网址" onclick="global_sel('link');" >企业网址</a>
+			<div class="form_div">
+                <form action="http://search.biz72.com/company_search.html" id="global_search" target="_blank" class="form_style" method="get">
+                	<input type="hidden" id="global_search_url" value="http://search.biz72.com/" />
+					<input type="text" class="input_style" name="k"  value="请输入关键字"  onfocus="if(this.value=='请输入关键字')this.value='';" onblur="if(this.value=='')this.value='请输入关键字';"/>
+                    <input type="button" class="button_style" value=" " onclick="global_submit();"/>
+                </form>  
+            </div>
+        </div> 
+    </div>
+</div>
+<!-- 头部E -->    
+    <!-- navS -->
+    <div class="main-anav">
+        <div class="main-bnav">
+        	<div class="main-navl">全部公司分类</div>
+            <div class="main-nav">
+                <a target="_self" href="http://www.biz72.com/" title="首页">首页</a>
+                <a target="_self" href="http://provide.biz72.com/" title="商品市场">商品市场</a>
+                <a target="_self" href="http://company.biz72.com/" title="公司黄页" class="new_nav01">公司黄页</a>
+                <a target="_self" href="http://buy.biz72.com/" title="综合商机">综合商机</a>
+                <a target="_self" href="http://agent.biz72.com/" title="招商信息">招商信息</a>
+                <a target="_self" href="http://news.biz72.com/" title="商业资讯">商业资讯</a>
+                <a target="_self" href="http://price.biz72.com/" title="价格行情">价格行情</a>
+                <a target="_self" href="http://expo.biz72.com/" title="行业展会">行业展会</a>
+                <a target="_self" href="http://link.biz72.com/" title="企业网址">企业网址</a>
+            </div>
+        </div>	
+    </div>
+    <!-- navE --> 
+{{! 定义公用body内容标识}}
+{{{block ("body")}}}
+<!--
+<div id="footer">
+   <p class="footer_p"></p>
+   <div class="footer_a">
+	{{#if(friendlink)}}
+		{{#each(friendlink)}}
+			<a target="_blank" title="{{web_keyw}}" href="{{web_keywlink}}">{{web_keyw}}</a>;	
+		{{/each}}
+	{{/if}}
+
+  </div>
+   
+   <div class="footer_down">
+       <p class="footer_p02">
+			<a target="_blank" href="{{weburl.root}}/help/abous/">关于商务联盟</a>|
+         	<a target="_blank" href="{{weburl.root}}/help/abous/list/101.html">法律声明</a>|
+         	<a target="_blank" href="{{weburl.root}}/help/abous/list/102.html">服务条款</a>|
+         	<a target="_blank" href="{{weburl.root}}/sitemap/index.html">网站地图</a>
+       </p>
+   	   <p class="footer_p02">
+          {{WEBSITE_COPYRIGHT}}<br />
+       </p>{{WEBSITE_STAT}}
+   </div>
+</div>-->
+<div id="footer">
+    <div class="footer_01">
+            <a class="ralation_a">友情链接</a>
+        <a target="_blank" title="立刻申请加入" href="http://help.biz72.com/links" class="like">+申请链接本站</a>
+        </div> 
+    <p class="footer_p"></p>
+    <div class="footer_a">
+        </div>
+    <div class="footer_down">
+        <p class="footer_p02">
+            <a target="_blank" href="http://help.biz72.com/abous/">关于商务联盟</a>|
+         	<a target="_blank" href="http://help.biz72.com/abous/list/101.html">法律声明</a>|
+         	<a target="_blank" href="http://help.biz72.com/abous/list/102.html">服务条款</a>|
+         	<a target="_blank" href="http://www.biz72.com/sitemap/index.html">网站地图</a>
+        </p>
+        <p class="footer_p02">
+             <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备10212307号</a> 互联网药品信息服务资格证：【粤】-非经营性-2014-0116 <br />Copyright &copyright 2005-2015 广州致成文化传播有限公司 版权所有www.biz72.com<br />
+
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

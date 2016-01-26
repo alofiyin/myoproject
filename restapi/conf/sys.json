@@ -1,0 +1,20 @@
+{
+	"srv_name": "SCS BASE V1",
+	"port": 1985,
+	"zk": {
+		"hosts": "localhost:2181"
+	},
+	"zk_path": "/scs",
+	"redis":{
+		"host":"localhost",
+		"port":6380
+	},
+	"mysql": {
+		"host": "192.168.10.126",
+		"port":3306,
+		"user": "wbsp",
+		"passwd": "wbsp",
+		"dbname":"statsys"
+	}
+	
+}
